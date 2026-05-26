@@ -1,0 +1,98 @@
+agent:
+  name: "proxmox-exec"
+  version: "0.1.0"
+  mode: "execution"
+
+proxmox:
+  base_url: "${PROXMOX_BASE_URL}"
+  node: "${PROXMOX_NODE}"
+  api_token_id: "${PROXMOX_API_TOKEN_ID}"
+  api_token_secret: "${PROXMOX_API_TOKEN_SECRET}"
+  insecure_skip_tls_verify: false
+  timeout_seconds: 120
+  task_poll_interval_seconds: 2
+
+# Persistent WSS to control plane (execution agents). Not HTTP / probes-style base_url.
+controlplane:
+  websocket_url: "${FLUID_CONTROLPLANE_WEBSOCKET_URL}"
+  organization_uuid: "${FLUID_CONTROLPLANE_ORGANIZATION_UUID}"
+  token: "${FLUID_CONTROLPLANE_TOKEN}"
+
+logs:
+  enabled: true
+  verbosity: "normal"
+
+skills:
+  allowed:
+    - proxmox.vm.list
+    - proxmox.vm.status
+    - proxmox.vm.delete
+    - proxmox.vm.clone_and_start
+  definitions:
+    proxmox.vm.list:
+      result:
+        type: selectOptions
+        listPath: [items]
+        valueKey: value
+        labelKey: label
+    proxmox.vm.delete:
+      payload:
+        type: object
+        required: [vm_ref]
+        properties:
+          vm_ref: { type: string }
+      result:
+        type: object
+        properties:
+          provider: { type: string }
+          node: { type: string }
+          vmid: { type: integer }
+          delete_task_upid: { type: string }
+          provision_status: { type: string }
+    proxmox.vm.status:
+      payload:
+        type: object
+        required: [vm_ref]
+        properties:
+          vm_ref: { type: string }
+      result:
+        type: object
+        properties:
+          provider: { type: string }
+          node: { type: string }
+          vmid: { type: integer }
+          status: { type: string }
+    proxmox.vm.clone_and_start:
+      payload:
+        type: object
+        required: [template_vmid, name]
+        properties:
+          node: { type: string }
+          template_vmid: { type: integer }
+          new_vmid: { type: integer }
+          name: { type: string }
+          target_node: { type: string }
+          storage: { type: string }
+          pool: { type: string }
+          full: { type: boolean }
+          memory: { type: integer }
+          cores: { type: integer }
+          sockets: { type: integer }
+          ip_address: { type: string }
+          network_gateway: { type: string }
+          ip_prefix: { type: integer }
+          cloud_init_user_data: { type: string }
+          cloud_init_snippet_storage: { type: string }
+          cloud_init_disk_storage: { type: string }
+      result:
+        type: object
+        properties:
+          provider: { type: string }
+          node: { type: string }
+          template_vmid: { type: integer }
+          new_vmid: { type: integer }
+          name: { type: string }
+          clone_task_upid: { type: string }
+          start_task_upid: { type: string }
+          state: { type: string }
+          provision_status: { type: string }

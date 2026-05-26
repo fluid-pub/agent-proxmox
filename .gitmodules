@@ -1,0 +1,6 @@
+# Required when this module is the root of fluid-pub/agent-proxmox on GitHub.
+# Monorepo dev may use replace => ../core in go.mod without initializing this submodule.
+[submodule "core"]
+	path = core
+	url = https://github.com/fluid-pub/agent-core.git
+	branch = develop
