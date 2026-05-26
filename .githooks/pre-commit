@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+# Same check as fluid-pub/actions go-workload-ci "Verify formatting".
+set -e
+
+repo_root="$(git rev-parse --show-toplevel 2>/dev/null)" || {
+  echo "pre-commit: not inside a Git work tree" >&2
+  exit 1
+}
+
+cd "$repo_root" || exit 1
+
+if ! command -v gofmt >/dev/null 2>&1; then
+  echo "pre-commit: gofmt not found in PATH" >&2
+  exit 1
+fi
+
+unformatted="$(gofmt -l .)"
+if [ -n "$unformatted" ]; then
+  echo "pre-commit: gofmt would reformat these files (run: gofmt -w .):" >&2
+  echo "$unformatted" >&2
+  exit 1
+fi

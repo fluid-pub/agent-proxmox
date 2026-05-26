@@ -1,0 +1,11 @@
+.git
+.github
+build
+dist
+state
+state/**
+*.md
+env.secrets
+env.secrets.example
+config/agent.yml
+**/*_test.go
