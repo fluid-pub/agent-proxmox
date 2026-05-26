@@ -1,7 +1,7 @@
 GO ?= go
 CONFIG ?= config/agent.yml
 BINARY ?= dist/fluid-agent-proxmox
-VERSION ?= 0.1.0
+VERSION ?= 0.1.1
 LDFLAGS := -ldflags "-s -w -X main.Version=$(VERSION)"
 
 .PHONY: deps dev build build-linux test fmt lint help monorepo-replace

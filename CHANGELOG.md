@@ -9,6 +9,13 @@ Tag naming: `0.y.z` (no `v` prefix). Align `cmd/version.go` and `config/agent.ex
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-05-26
+
+### Changed
+
+- **agent-core** `0.1.1` (path validation, CI/security alignment); Docker build on `golang:1.26-bookworm`.
+- Release workflow pins shared core to the same semver tag as this agent.
+
 ## [0.1.0] - 2026-05-26
 
 ### Added

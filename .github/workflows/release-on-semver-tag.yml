@@ -17,4 +17,5 @@ jobs:
       workload_kind: agent
       binary_name: fluid-agent-proxmox
       core_repository: fluid-pub/agent-core
-      core_ref: develop
+      # Empty core_ref: checkout agent-core at the same semver tag as this release.
+      core_ref: ""
