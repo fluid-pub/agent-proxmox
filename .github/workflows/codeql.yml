@@ -23,10 +23,10 @@ jobs:
     name: Analyze
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Checkout shared core
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           repository: fluid-pub/agent-core
           ref: develop
@@ -37,7 +37,7 @@ jobs:
           go mod edit -replace fluid/agents/core=./core
           go mod download
 
-      - uses: actions/setup-go@v6
+      - uses: actions/setup-go@v7
         with:
           go-version: "1.23"
           cache-dependency-path: go.sum
